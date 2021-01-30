@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import axios from 'axios'
 
+
 const About = () => {
   const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
     axios.get('/api/blogs')
-      .then((res) => res.json())
-      .then((data) => {
-        setBlogs(data)
-        console.log(data)
+      .then((res) => {
+        setBlogs(res.data)
+        console.log('Res:',res.data)
       })
-    .catch((err) => console.log(err))
+      .catch((err) => console.log(err))
+    
+    console.log(blogs);
   },[])
 
     return ( 
