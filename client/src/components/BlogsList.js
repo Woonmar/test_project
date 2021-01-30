@@ -13,9 +13,10 @@ const BlogsList = () => {
 
 
   useEffect(() => {
-    setBlogs('Data:', data)
-    setBlogs('Data.data:', data.data)
+    setBlogs(data)
     console.log('re-render');
+    console.log('Data: ', data);
+    console.log('Data.data: ',data.data);
   },[data])
   
   const deleteEvent = async (id) => {
