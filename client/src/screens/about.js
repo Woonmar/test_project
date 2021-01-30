@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import axios from 'axios'
+
 const About = () => {
   const [blogs, setBlogs] = useState([])
 
   useEffect(() => {
-    fetch('/api/blogs')
+    axios.get('/api/blogs')
       .then((res) => res.json())
       .then((data) => {
         setBlogs(data)
