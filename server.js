@@ -25,6 +25,8 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true})
   .then((res) => console.log('Connected to MongoDB'))
   .catch((err) => console.log(err))
 
+// Blog route
+app.use(`/${blogs_api}/blogs`, require('./routes/blogsRoute'))
 
 // static folders
 if (process.env.NODE_ENV === 'production') {
@@ -33,9 +35,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
   })
 }
-
-// Blog route
-app.use(`/${blogs_api}/blogs`, require('./routes/blogsRoute'))
 
 // 404 page not found
 app.use((req, res) => {
