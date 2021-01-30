@@ -12,9 +12,6 @@ const Navbar = () => {
         <li className="nav-item">
           <Link className="nav-link" to="/about">About</Link>
         </li>
-        <li className="nav-item">
-          <a className="nav-link" href="http://localhost:8000"> Admin site </a>
-        </li>
       </ul>
     </div>
    );

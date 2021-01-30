@@ -3,36 +3,23 @@ const Blog = require('../models/blogs')
 // Get blogs
 const blog_index = (req, res) => {
   Blog.find()
-    .then((result) => res.render('blogs/index', { blogs: result }))
+    .then((result) => res.send(result))
     .catch((err) => console.log(err))
-}
-
-// Get reate blogs
-const blog_create = (req, res) => {
-  res.render('blogs/create')
 }
 
 // Get one specific blog
 const blog_detail = (req, res) => {
   const id = req.params.id
   Blog.findById(id)
-  .then((result) => res.render('blogs/detail', { blog: result }))
+  .then((result) => res.send(result))
   .catch((err) => console.log(err))
-}
-
-// Get edit blog
-const blog_edit = (req, res) => {
-  const id = req.params.id
-  Blog.findById(id)
-    .then((result) => res.render('blogs/edit',{blog: result}))
-    .catch((err) => console.log('ERROR: ', err))
 }
 
 // Post blog
 const blog_post = (req, res) => {
   const blog = new Blog(req.body) 
   blog.save()
-  .then((result) => res.redirect('/blogs'))
+  .then((result) => res.send(result))
   .catch((err) => console.log(err))
 }
 
@@ -46,7 +33,7 @@ const blog_update = (req, res) => {
       body: req.body.body,
       author: req.body.author
     }
-  }).then((result) => res.redirect(`/blogs/${id}`))
+  }).then((result) => res.send(result))
     .catch((err) => console.log(err))
 
 }
@@ -63,8 +50,6 @@ const blog_delete = (req, res) => {
 module.exports = {
   blog_index,
   blog_detail,
-  blog_create,
-  blog_edit,
   blog_post,
   blog_update,
   blog_delete,
