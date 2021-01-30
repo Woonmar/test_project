@@ -3,7 +3,7 @@ import useFetch from "../services/useFetch";
 
 const BlogDetails = ({title}) => {
   const { id } = useParams();
-  const { data:blog, isLoading } = useFetch(`http://localhost:5000/blogs/${id}`)
+  const { data:blog, isLoading } = useFetch(`/api/blogs/${id}`)
 
   return ( 
     <div>
@@ -18,7 +18,6 @@ const BlogDetails = ({title}) => {
 BlogDetails.defaultProps = {
   title: 'Hello'
 }
-
 
 export default BlogDetails;
 

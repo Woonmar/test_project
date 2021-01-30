@@ -4,7 +4,7 @@ import useFetch from "../services/useFetch";
 
 const BlogsList = () => {
 
-  const { isLoading, data } = useFetch('http://localhost:5000/blogs')
+  const { isLoading, data } = useFetch('/api/blogs')
   const [blogs, setBlogs] = useState([])
   const [toggleForm, setToggleForm] = useState(false) 
 
@@ -18,7 +18,7 @@ const BlogsList = () => {
   },[data])
   
   const deleteEvent = async (id) => {
-    await fetch(`http://localhost:5000/blogs/${id}`, {
+    await fetch(`api/blogs/${id}`, {
       method: "DELETE",
     })
     setBlogs(blogs.filter((blog) => blog.id !== id)) 
@@ -33,7 +33,7 @@ const BlogsList = () => {
     const id = Math.floor(Math.random() * 100) + 1
     const blog = {id, title, author };
 
-    fetch('http://localhost:5000/blogs', {
+    fetch('/api/blogs', {
       method: 'POST', 
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(blog)
@@ -83,13 +83,13 @@ const BlogsList = () => {
               </tr>
             </thead>
           {blogs && blogs.map((blog) =>
-            <tbody key={blog.id}>
+            <tbody key={blog._id}>
               <tr>
-                <th scope="row"> {blog.id}</th>
+                <th scope="row"> {blog._id}</th>
                 <td> <input type="checkbox" onClick={() =>check(blog.id)}/> </td>
-                <td> <Link to={`/blog/${blog.id}`}> {blog.title} </Link></td>
+                <td> <Link to={`/blog/${blog._id}`}> {blog.title} </Link></td>
                 <td style={{ color: "green" }}>{blog.author} </td>
-                <td> <button className="btn btn-danger" onClick={()=>deleteEvent(blog.id)}>Delete</button> </td>
+                <td> <button className="btn btn-danger" onClick={()=>deleteEvent(blog._id)}>Delete</button> </td>
               </tr>
              </tbody>
             )}
