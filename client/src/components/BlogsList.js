@@ -71,8 +71,9 @@ const BlogsList = () => {
           {toggleForm ? 'Close Form' : 'Show Form'}
         </button>
         {toggleForm ? formfield : null}
-        {isLoading && <p>Loading...</p> }
-          <table className="table">
+        {isLoading && <p>Loading...</p>}
+        { blogs && blogs.length }
+          {/* <table className="table">
             <thead className="thead-dark">
               <tr>
               <th>#</th>
@@ -93,7 +94,7 @@ const BlogsList = () => {
               </tr>
              </tbody>
             )}
-          </table>
+          </table> */}
         </div>
      );
 }
