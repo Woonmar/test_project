@@ -13,13 +13,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
 //process.env
-const port = process.env.PORT
-const host = process.env.HOST
+const port = process.env.PORT || 8000
 const dbURL = process.env.mongoDBURL
 const blogs_api = process.env.blogs_api
 
 // listining to port
-app.listen(port, host, () => console.log(`Listing to port ${port}...`))
+app.listen(port, () => console.log(`Listing to port ${port}...`))
 
 // MongoDB Database Connect
 mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true})
