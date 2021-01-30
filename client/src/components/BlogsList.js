@@ -13,7 +13,8 @@ const BlogsList = () => {
 
 
   useEffect(() => {
-    setBlogs(data)
+    setBlogs('Data:', data)
+    setBlogs('Data.data:', data.data)
     console.log('re-render');
   },[data])
   
