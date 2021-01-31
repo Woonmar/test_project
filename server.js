@@ -3,14 +3,13 @@ const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
 const path = require('path')
-
+const bodyParser = require('body-parser')
 require('dotenv').config()
-
-app.set('view engine', 'ejs')
 
 //Middleware
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
+app.use(bodyParser.json())
 
 //process.env
 const port = process.env.PORT || 8000

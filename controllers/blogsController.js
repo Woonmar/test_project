@@ -3,7 +3,7 @@ const Blog = require('../models/blogs')
 // Get blogs
 const blog_index = (req, res) => {
   Blog.find()
-    .then((result) => res.send(result))
+    .then((result) => res.json(result))
     .catch((err) => console.log(err))
 }
 
@@ -11,16 +11,20 @@ const blog_index = (req, res) => {
 const blog_detail = (req, res) => {
   const id = req.params.id
   Blog.findById(id)
-  .then((result) => res.send(result))
+  .then((result) => res.json(result))
   .catch((err) => console.log(err))
 }
 
 // Post blog
 const blog_post = (req, res) => {
   const blog = new Blog(req.body) 
+  console.log('New Blog', blog);
   blog.save()
-  .then((result) => res.send(result))
-  .catch((err) => console.log(err))
+    .then((result) => {
+      console.log('result ',result)
+      res.json(result)
+    })
+  .catch((err) => console.log('Posted blog error:',err))
 }
 
 // Post update blog 
@@ -33,7 +37,7 @@ const blog_update = (req, res) => {
       body: req.body.body,
       author: req.body.author
     }
-  }).then((result) => res.send(result))
+  }).then((result) => res.json(result))
     .catch((err) => console.log(err))
 
 }
