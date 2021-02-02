@@ -36,17 +36,12 @@ const BlogsList = () => {
     axios.post('/api/blogs', blog)
       .then((res) => {
         console.log('New Blog Added');
-        console.log(res);
         setTitle('')
         setAuthor('')
         setBlogs([...blogs, blog])
       })
       .catch((err) => console.log('ERROR:', err))
     console.log('Submit again');
-  }
-
-  const check = (id) => {
-    console.log(`check box clicked ${id}`);
   }
 
   const formfield = 
@@ -95,7 +90,7 @@ const BlogsList = () => {
             <tbody key={blog.title}>
               <tr>
                 <th scope="row"> {blog._id}</th>
-                <td> <input type="checkbox" onClick={() =>check(blog.id)}/> </td>
+                <td> <input type="checkbox" /> </td>
                 <td> <Link to={`/blog/${blog._id}`}> {blog.title} </Link></td>
                 <td style={{ color: "green" }}>{blog.author} </td>
                 <td> <button className="btn btn-danger" onClick={()=>deleteEvent(blog._id)}>Delete</button> </td>
