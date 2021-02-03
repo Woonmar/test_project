@@ -24,10 +24,10 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true})
   .then((res) => console.log('Connected to MongoDB'))
   .catch((err) => console.log(err))
 
-// Blog route
+// Blog route API
 app.use(`/${blogs_api}/blogs`, require('./routes/blogsRoute'))
 
-// static folders
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))
   app.get('*', (req, res) => {

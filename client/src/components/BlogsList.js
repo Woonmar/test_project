@@ -46,7 +46,7 @@ const BlogsList = () => {
 
   const formfield = 
     <div className="m-4">
-    <h2> Form </h2>
+    <h2> Form </h2> 
     <form onSubmit={handleSubmit}>
       <div className="form-group">
       <label > Blog title : </label>
