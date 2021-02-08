@@ -15,7 +15,7 @@ app.use(bodyParser.json())
 const port = process.env.PORT || 8000
 const dbURL = process.env.mongoDBURL
 const blogs_api = process.env.blogs_api
-
+const token = process.env.jwtSecret
 // listining to port
 app.listen(port, () => console.log(`Listing to port ${port}...`))
 
@@ -26,7 +26,7 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true})
 
 // Blog route API
 app.use(`/${blogs_api}/blogs`, require('./routes/blogsRoute'))
-
+app.use('/api/users', require('./routes/userRoute'))
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))
