@@ -1,21 +1,48 @@
+const { response } = require('express')
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
-const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+const passport = require('passport')
 
 router.get('/', (req, res) => {
-  User.find()
-    .then((result) => res.send(result))
-    .catch((err) => console.log(err))
+  res.send(req.user)
 })
 
-router.post('/', (req, res) => {
-  const user = new User(req.body)
-      user.save()
-        .then((result) => {
-        res.send(result)
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) throw err;
+    if (!user) res.send('No User bruh');
+    else {
+      req.logIn(user, err => {
+        if (err) throw err;
+        res.send('Successfully logined');
+        console.log(user);
       })
-      .catch((err) => console.log(err))
+    }
+  })(req, res, next);
+})
+
+router.post('/register', (req, res) => {
+  User.findOne({ email: req.body.email }, async (err, doc) => {
+    if (err) throw err;
+    if (doc) console.log('User already exist');
+    if (!doc) {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10)
+      const user = new User({
+        username: req.body.username,
+        email: req.body.email,
+        password: hashedPassword
+      })
+      user.save()
+        .then((result) => console.log(result))
+    }
+  })
+})
+
+router.post('/logout', (req, res) => {
+  req.logOut()
+  
 })
   
 module.exports = router;

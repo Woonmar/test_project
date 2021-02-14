@@ -4,12 +4,29 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const path = require('path')
 const bodyParser = require('body-parser')
+const passport = require('passport')
+const session = require('express-session')
+const cookieParser = require('cookie-parser')
+
 require('dotenv').config()
 
 //Middleware
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
 app.use(bodyParser.json())
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true
+}))
+app.use(session({
+  secret: 'secretCode',
+  resave: true,
+  saveUninitialized: true
+}))
+app.use(cookieParser('secretCode'))
+app.use(passport.initialize())
+app.use(passport.session())
+require('./controllers/auth')(passport)
+// ---------------------------- END OF MIDDLEWARE --------------------------------
 
 //process.env
 const port = process.env.PORT || 8000
@@ -26,7 +43,7 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true})
 
 // Blog route API
 app.use(`/${blogs_api}/blogs`, require('./routes/blogsRoute'))
-app.use('/api/users', require('./routes/userRoute'))
+app.use('/user', require('./routes/userRoute'))
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'))
