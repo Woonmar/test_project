@@ -5,10 +5,11 @@ const Register = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
+  const [role, setRole] = useState('')
 
   const register = (e) => {
     e.preventDefault()
-    const user = {username, password, email}
+    const user = {username, password, email, role}
     axios.post('user/register', user, {withCredentials:true})
       .then((result) => console.log(result))
   }
@@ -21,6 +22,9 @@ const Register = () => {
 
         <label htmlFor=""> Email </label>
         <input type="text" name="email" className="form-control" onChange={(e)=> setEmail(e.target.value) }/>
+
+        <label htmlFor=""> Role </label>
+        <input type="text" name="email" className="form-control" onChange={(e)=> setRole(e.target.value) }/>
         
         <label htmlFor="">Password</label>
         <input type="password" name="password" className="form-control" onChange={(e)=>setPassword(e.target.value)} />

@@ -1,48 +1,87 @@
-const { response } = require('express')
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
-const bcrypt = require('bcryptjs')
 const passport = require('passport')
+const jwt = require('jsonwebtoken')
+
+const signToken = userID => {
+  return jwt.sign({
+    iss: "NoobCoder",
+    sub: userID
+  },"NoobCoder",{expiresIn: "1h"})
+}
 
 router.get('/', (req, res) => {
   res.send(req.user)
 })
 
-router.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) throw err;
-    if (!user) res.send('No User bruh');
-    else {
-      req.logIn(user, err => {
-        if (err) throw err;
-        res.send('Successfully logined');
-        console.log(user);
-      })
-    }
-  })(req, res, next);
-})
-
 router.post('/register', (req, res) => {
-  User.findOne({ email: req.body.email }, async (err, doc) => {
-    if (err) throw err;
-    if (doc) console.log('User already exist');
-    if (!doc) {
-      const hashedPassword = await bcrypt.hash(req.body.password, 10)
-      const user = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: hashedPassword
+  User.findOne({ email: req.body.email }, (err, user) => {
+    if (err)
+      res.status(500).json({
+        message: {
+          msgBody: "Error has occured",
+          msgError: true
+        }
       })
+    if (user)
+      res.status(400).json({
+        message: {
+          msgBody: "User already taken",
+          msgError: true
+        }
+      })
+    else {
+      const user = new User(req.body)
       user.save()
-        .then((result) => console.log(result))
+        .then(() => res.status(201).json({
+          message: {
+            msgBody: "Successfully created the account",
+            msgError: false
+          }
+        }))
     }
   })
 })
 
-router.post('/logout', (req, res) => {
-  req.logOut()
-  
+router.post('/login', passport.authenticate('local', {session: false}) , (req, res) => {
+  if (req.isAuthenticated) {
+    console.log("authenticated");
+    const { _id, username, role } = req.user;
+    const token = signToken(_id);
+    res.cookie('access_token', token, { httpOnly: true, sameSite: true });
+    res.status(200).json({ isAuthenticated: true, user: { username, role } });
+  } else {
+    console.log('Unauthenticated');
+  }
 })
+
+router.get('/admin', passport.authenticate('jwt', {session: false}), (req, res) => {
+  if (req.user.role === 'admin') {
+    res.status(500).json({
+      message: {
+        msgBody: "You are an admin",
+        msgError: false
+      }
+    })
+  } else {
+    res.status(500).json({
+      message: {
+        msgBody: "You are not an admin",
+        msgError: true
+      }
+    })
+  }
+}) 
+
+router.get('/authenticated', passport.authenticate('jwt', { session: false }), (req, res) => {
+  const { username, role } = req.user;
+  res.status(200).json({ isAuthenticated: true, user: { username, role } });
+})
+
+router.get('/logout', passport.authenticate('jwt', {session: false}), (req, res) => {
+  res.clearCookie('access_token');
+  res.json({user: {username: '', role: ''}, success: true})
+}) 
   
 module.exports = router;

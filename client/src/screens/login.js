@@ -10,15 +10,7 @@ const Login = () => {
     e.preventDefault()
     const user = {username, password}
     axios.post('user/login', user, {withCredentials:true})
-      .then((result) => console.log(result))
-  }
-
-  const getuser = () => {
-    axios.get('user').then((result)=> console.log(result.data))    
-  }
-  const logout = () => {
-    axios.post('user/logout',{withCredentials:true})
-      .then((result) => console.log('Success Logout'))
+      .then(() => window.location.replace("/"))
   }
 
   return ( 
@@ -32,9 +24,6 @@ const Login = () => {
         <button className="btn btn-primary btn-block mt-4">Login</button>
       </form>
 
-      <button onClick={getuser}> Get user</button>
-      <br/>
-      <button onClick={logout}> Logout</button>
     </div>
    );
 }

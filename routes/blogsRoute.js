@@ -1,11 +1,51 @@
 const express = require('express')
 const router = express.Router()
-const blogsController = require('../controllers/blogsController')
+const Blog = require('../models/blogs')
 
-router.get('/', blogsController.blog_index)
-router.post('/', blogsController.blog_post)
-router.get('/:id', blogsController.blog_detail)
-router.put('/:id', blogsController.blog_update)
-router.delete('/:id', blogsController.blog_delete)
+router.get('/', (req, res) => {
+  Blog.find()
+    .then((result) => res.send(result))
+    .catch((err) => console.log(err))
+})
+
+router.post('/', (req, res) => {
+  const blog = new Blog(req.body) 
+  console.log('New Blog', blog);
+  blog.save()
+    .then((result) => {
+      console.log('result ',result)
+      res.send(result)
+    })
+  .catch((err) => console.log('Posted blog error:',err))
+})
+
+router.get('/:id', (req, res) => {
+  const id = req.params.id
+  Blog.findById(id)
+  .then((result) => res.send(result))
+  .catch((err) => console.log(err))
+})
+
+router.put('/:id', (req, res) => {
+  const id = req.params.id
+  Blog.updateOne({ _id: id }, {
+    $set: {
+      title: req.body.title,
+      snippet: req.body.snippet,
+      body: req.body.body,
+      author: req.body.author
+    }
+  }).then((result) => res.send(result))
+    .catch((err) => console.log(err))
+})
+
+router.delete('/:id', (req, res) => {
+  const id = req.params.id
+  Blog.findByIdAndDelete(id)
+    .then((result) => {
+      res.send(result)
+    })
+    .catch((err) => console.log(err))
+})
 
 module.exports = router;

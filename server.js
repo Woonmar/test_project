@@ -3,7 +3,6 @@ const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
 const path = require('path')
-const bodyParser = require('body-parser')
 const passport = require('passport')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
@@ -11,18 +10,18 @@ const cookieParser = require('cookie-parser')
 require('dotenv').config()
 
 //Middleware
-app.use(express.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: true } ))
+app.use(express.json())
 app.use(cors({
   origin: "http://localhost:3000",
   credentials: true
 }))
-app.use(session({
-  secret: 'secretCode',
-  resave: true,
-  saveUninitialized: true
-}))
-app.use(cookieParser('secretCode'))
+// app.use(session({
+//   secret: 'NoobCoder',
+//   resave: true,
+//   saveUninitialized: true
+// }))
+app.use(cookieParser())
 app.use(passport.initialize())
 app.use(passport.session())
 require('./controllers/auth')(passport)
@@ -32,7 +31,6 @@ require('./controllers/auth')(passport)
 const port = process.env.PORT || 8000
 const dbURL = process.env.mongoDBURL
 const blogs_api = process.env.blogs_api
-const token = process.env.jwtSecret
 // listining to port
 app.listen(port, () => console.log(`Listing to port ${port}...`))
 

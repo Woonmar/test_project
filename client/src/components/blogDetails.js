@@ -5,7 +5,7 @@ const BlogDetails = ({title}) => {
   const { id } = useParams();
   const { data:blog, isLoading } = useFetch(`/api/blogs/${id}`)
 
-  return ( 
+  return (
     <div>
       <h1>Blog Details - {id} </h1>
       {isLoading && <div>Loading...</div>}

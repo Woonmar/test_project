@@ -18,7 +18,10 @@ const BlogsList = () => {
     setBlogs(data)
     console.log('re-render');
     console.log('Data: ', data);
-  },[data])
+    axios.get('/user')
+      .then((result) => console.log('Result login', result.data))
+  }, [data])
+  
   
   const deleteEvent = async (id) => {
     await axios.delete(`api/blogs/${id}`)
