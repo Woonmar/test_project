@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import {BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import BlogDetails from "./components/blogDetails";
 import BlogsList from "./components/BlogsList";
