@@ -4,7 +4,6 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const path = require('path')
 const passport = require('passport')
-const session = require('express-session')
 const cookieParser = require('cookie-parser')
 
 require('dotenv').config()
@@ -16,11 +15,6 @@ app.use(cors({
   origin: "http://localhost:3000",
   credentials: true
 }))
-// app.use(session({
-//   secret: 'NoobCoder',
-//   resave: true,
-//   saveUninitialized: true
-// }))
 app.use(cookieParser())
 app.use(passport.initialize())
 app.use(passport.session())

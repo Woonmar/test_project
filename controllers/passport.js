@@ -1,5 +1,4 @@
 const User = require('../models/user');
-const passport = require('passport')
 const localStrategy = require('passport-local').Strategy;
 const jwtStrategy = require('passport-jwt').Strategy;
 
@@ -36,17 +35,3 @@ module.exports = function (passport) {
     })
   )
 }
-
-
-// passport.serializeUser((user, cb) => {
-//   cb(null, user.id);
-// })
-
-// passport.deserializeUser((id, cb) => {
-//   User.findOne({ _id: id }, (err, user) => {
-//     const userInfo = {
-//       username: user.username,
-//     }
-//     cb(err, user);
-//   })
-// })

@@ -8,12 +8,8 @@ const signToken = userID => {
   return jwt.sign({
     iss: "NoobCoder",
     sub: userID
-  },"NoobCoder",{expiresIn: "1h"})
+  }, "NoobCoder", { expiresIn: "1h" })
 }
-
-router.get('/', (req, res) => {
-  res.send(req.user)
-})
 
 router.post('/register', (req, res) => {
   User.findOne({ email: req.body.email }, (err, user) => {
@@ -44,7 +40,7 @@ router.post('/register', (req, res) => {
   })
 })
 
-router.post('/login', passport.authenticate('local', {session: false}) , (req, res) => {
+router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
   if (req.isAuthenticated) {
     console.log("authenticated");
     const { _id, username, role, email } = req.user;
@@ -56,7 +52,7 @@ router.post('/login', passport.authenticate('local', {session: false}) , (req, r
   }
 })
 
-router.get('/admin', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.get('/admin', passport.authenticate('jwt', { session: false }), (req, res) => {
   if (req.user.role === 'admin') {
     res.status(500).json({
       message: {
@@ -72,16 +68,16 @@ router.get('/admin', passport.authenticate('jwt', {session: false}), (req, res) 
       }
     })
   }
-}) 
+})
 
 router.get('/authenticated', passport.authenticate('jwt', { session: false }), (req, res) => {
   const { username, role, email } = req.user;
   res.status(200).json({ isAuthenticated: true, user: { username, role, email } });
 })
 
-router.get('/logout', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.get('/logout', passport.authenticate('jwt', { session: false }), (req, res) => {
   res.clearCookie('access_token');
-  res.json({user: {username: '', role: ''}, success: true})
-}) 
-  
+  res.json({ user: { username: '', role: '' }, success: true })
+})
+
 module.exports = router;
