@@ -47,10 +47,10 @@ router.post('/register', (req, res) => {
 router.post('/login', passport.authenticate('local', {session: false}) , (req, res) => {
   if (req.isAuthenticated) {
     console.log("authenticated");
-    const { _id, username, role } = req.user;
+    const { _id, username, role, email } = req.user;
     const token = signToken(_id);
     res.cookie('access_token', token, { httpOnly: true, sameSite: true });
-    res.status(200).json({ isAuthenticated: true, user: { username, role } });
+    res.status(200).json({ isAuthenticated: true, user: { username, role, email } });
   } else {
     console.log('Unauthenticated');
   }
@@ -75,8 +75,8 @@ router.get('/admin', passport.authenticate('jwt', {session: false}), (req, res) 
 }) 
 
 router.get('/authenticated', passport.authenticate('jwt', { session: false }), (req, res) => {
-  const { username, role } = req.user;
-  res.status(200).json({ isAuthenticated: true, user: { username, role } });
+  const { username, role, email } = req.user;
+  res.status(200).json({ isAuthenticated: true, user: { username, role, email } });
 })
 
 router.get('/logout', passport.authenticate('jwt', {session: false}), (req, res) => {

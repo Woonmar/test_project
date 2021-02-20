@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from 'axios'
+import authService from '../services/authService';
 
 const Register = () => {
   const [username, setUsername] = useState('')
@@ -9,9 +9,8 @@ const Register = () => {
 
   const register = (e) => {
     e.preventDefault()
-    const user = {username, password, email, role}
-    axios.post('user/register', user, {withCredentials:true})
-      .then((result) => console.log(result))
+    const user = { username, password, email, role }
+    authService.register(user)
   }
 
   return ( 

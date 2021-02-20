@@ -6,23 +6,20 @@ import Navbar from "./components/Navbar";
 import About from "./screens/about";
 import Login from "./screens/login";
 import Register from "./screens/register"
-import {AuthContext} from './context/authContext'
+import PrivateRoute from './hocs/privateRoute'
+import UnPrivateRoute from "./hocs/unprivateRoute";
 
 function App() {
-  const { user, setUser, authenticated, setAuthenticated } = useContext(AuthContext);
-  console.log(user);
-  console.log(authenticated);
   return (
     <Router>
-      <Navbar></Navbar>
-
+      <Navbar/>
       <div className="container">
         <Switch>
           <Route exact path="/" component={BlogsList} />
-          <Route exact path="/about" component={About} />
           <Route path="/blog/:id" component={BlogDetails} />
-          <Route path="/register" component={Register} />
-          <Route path="/login" component={Login} />
+          <UnPrivateRoute path="/register" component={Register} />
+          <UnPrivateRoute path="/login" component={Login} />
+          <PrivateRoute path="/about" roles={['user', 'admin']} component={About} />
         </Switch>
       </div>
     </Router>

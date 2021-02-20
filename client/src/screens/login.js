@@ -1,22 +1,20 @@
-import { useEffect, useState } from "react";
-import axios from 'axios'
+import { useState } from "react";
+import authService from '../services/authService';
 
 const Login = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
+  const [username, setUsername] = useState(null)
+  const [password, setPassword] = useState(null)
 
   const login = (e) => {
     e.preventDefault()
     const user = {username, password}
-    axios.post('user/login', user, {withCredentials:true})
-      .then(() => window.location.replace("/"))
+    authService.login(user)
   }
 
   return ( 
     <div>
       <form onSubmit={login} className="form-group">
-        <label htmlFor=""> Username </label>
+        <label htmlFor="username"> Username </label>
         <input type="text" name="username" className="form-control" onChange={(e)=> setUsername(e.target.value) }/>
         
         <label htmlFor="">Password</label>
