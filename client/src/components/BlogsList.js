@@ -18,8 +18,6 @@ const BlogsList = () => {
     setBlogs(data)
     console.log('re-render');
     console.log('Data: ', data);
-    axios.get('/user')
-      .then((result) => console.log('Result login', result.data))
   }, [data])
   
   
