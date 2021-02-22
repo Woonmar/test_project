@@ -18,7 +18,7 @@ app.use(cors({
 app.use(cookieParser())
 app.use(passport.initialize())
 app.use(passport.session())
-require('./controllers/auth')(passport)
+require('./controllers/passport')(passport)
 // ---------------------------- END OF MIDDLEWARE --------------------------------
 
 //process.env
