@@ -29,15 +29,15 @@ const blogs_api = process.env.blogs_api
 app.listen(port, () => console.log(`Listing to port ${port}...`))
 
 // MongoDB Database Connect
-mongoose.connect('mongodb+srv://woonmar:dnf41841@online-shopping.i0zh4.mongodb.net/online-shopping?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true})
   .then((res) => console.log('Connected to MongoDB'))
   .catch((err) => console.log(err))
 
 // Blog route API
-app.use(`/api/blogs`, require('./routes/blogsRoute'))
+app.use(`/${blogs_api}/blogs`, require('./routes/blogsRoute'))
 app.use('/user', require('./routes/userRoute'))
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production')  {
   app.use(express.static('client/build'))
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
