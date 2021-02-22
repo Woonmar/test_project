@@ -23,21 +23,19 @@ require('./controllers/passport')(passport)
 
 //process.env
 const port = process.env.PORT || 8000
-const dbURL = process.env.mongoDBURL
-const blogs_api = process.env.blogs_api
+const dbURL = process.env.MONGOURL
+const blogs_api = process.env.API
 
-const DBURL_ENV = process.env.NODE_ENV
-const BLOGS_API_ENV = process.env.NODE_ENV
 // listining to port
 app.listen(port, () => console.log(`Listing to port ${port}...`))
 
 // MongoDB Database Connect
-mongoose.connect(DBURL_ENV, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true})
   .then((res) => console.log('Connected to MongoDB'))
   .catch((err) => console.log(err))
 
 // Blog route API
-app.use(`/${BLOGS_API_ENV}/blogs`, require('./routes/blogsRoute'))
+app.use(`/${blogs_api}/blogs`, require('./routes/blogsRoute'))
 app.use('/user', require('./routes/userRoute'))
 
 if (process.env.NODE_ENV === 'production')  {
